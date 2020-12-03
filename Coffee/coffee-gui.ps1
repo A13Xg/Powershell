@@ -54,7 +54,7 @@ function KillAwake {
         }
     }
 #endregion /\ FUNCTIONS /\
-    
+   
 
 #region \/ GUI \/
 Add-Type -AssemblyName System.Windows.Forms
