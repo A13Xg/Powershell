@@ -11,36 +11,18 @@ A13Xg Industries
 
 
     #// Function to get current directory and specify path to Assets
-$myObject = [PSCustomObject]@{
-        Name     = 'Kevin'
-        Language = 'PowerShell'
-        State    = 'Texas'
+$Assets = [PSCustomObject]@{
+        ImgFull     = Join-Path -Path (Get-Location) -ChildPath "\Assets\coffee-full.png"
+        ImgEmpty    = Join-Path -Path (Get-Location) -ChildPath "\Assets\coffee-empty.png"
+        Icon        = Join-Path -Path (Get-Location) -ChildPath "\Assets\coffee.ico"
 }
-function ImagePath {
-    $Loc = Get-Location
-    Join-Path -Path $Loc -ChildPath "\Assets\coffee-full.png"
-    }
-    
-function ImagePathEmpty {
-    $Loc = Get-Location
-    Join-Path -Path $Loc -ChildPath "\Assets\coffee-empty.png"
-    }
-    
-function IconPath {
-    $Loc = Get-Location
-    Join-Path -Path $Loc -ChildPath "\Assets\coffee.ico"
-    }
-    
-    $ImgLoc = ImagePath
-    $ImgLocEmpty = ImagePathEmpty
-    $IconLoc = IconPath
-    
+
 function StatusBang {
-        $image.imageLocation = $ImgLoc
+        $image.imageLocation = $Assets.ImgFull
     }
     
 function StatusUnBang {
-        $image.imageLocation = "$ImgLocEmpty"
+        $image.imageLocation = $Assets.ImgEmpty
     }
     
 function StayAwake {
@@ -74,7 +56,7 @@ $Form                            = New-Object system.Windows.Forms.Form
 $Form.ClientSize                 = New-Object System.Drawing.Point(161,207)
 $Form.text                       = "Form"
 $Form.TopMost                    = $false
-$Form.Icon                       = $IconLoc
+$Form.Icon                       = $Assets.Icon
 
 $image                           = New-Object system.Windows.Forms.PictureBox
 $image.width                     = 147
