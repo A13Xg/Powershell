@@ -31,15 +31,21 @@ This code prevents a system from going to sleep due to a forced Group Policy or 
 
 ## Usage
 ### GUI
-##### Launch the script
+##### Launch the GUI
 ```Powershell
 PS C:\> .\coffee-gui.ps1
 ```
 
 ### cmdLine
-```Powershell
 
+#### Start the Script
+```Powershell
+PS C:\> .\coffee-cmd.ps1
 ```
+>    -> Coffee Script Loaded <-
+>
+>    Would you like to [Start] or [Stop] Coffee?
+
 ## Installation
 #### Powershell Command Line:
 ```powershell
