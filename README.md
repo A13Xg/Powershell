@@ -12,7 +12,7 @@ A collection of Powershell scripts and tools
 - [A13Xg/Powershell](https://github.com/A13Xg/Powershell)
     - [Codex](https://github.com/A13Xg/Powershell/tree/main/Codex)
     - [Coffee](https://github.com/A13Xg/Powershell/tree/main/Coffee)
-    - [FizzBuzz Example]([A13Xg/Powershell](https://github.com/A13Xg/Powershell/tree/main/FizBuz%20Example))
+    - [FizzBuzz Example](https://github.com/A13Xg/Powershell/tree/main/FizBuz%20Example)
     - < more to come >
 
 ---
