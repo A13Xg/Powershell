@@ -13,7 +13,7 @@ A13Xg Industries
 #region \/ FUNCTIONS \/
     #// Function to start a job and run a Wscript to press the scroll-lock key every 45sec which keeps the computer awake
 function StayAwake {
-        Start-Job -Name Wakey {
+        Start-Job -Name Coffee {
         Write-Host functionRan
             $WShell = New-Object -Com Wscript.Shell
             while (1) {$WShell.SendKeys("{SCROLLLOCK}{SCROLLLOCK}"); sleep 45}
@@ -24,18 +24,16 @@ function StayAwake {
     #// Function to kill the Wscript process and stop the job
 function KillAwake {
         Try {
-            Stop-Job -Name Wakey
-            Remove-Job -Name Wakey
+            Stop-Job -Name Coffee -ErrorAction Stop
+            Remove-Job -Name Coffee -ErrorAction Stop
             }
         Catch {
-            Write-Host No Job is currently running.
+            Write-Warning -Message "No Coffee Job is currently running."
         }
         Finally {
         }
     }
-#endregion /\ FUNCTIONS /\
-
-function Coffee {
+    function Coffee {
         #//Function Documentation
     <#
 .Synopsis
@@ -71,3 +69,14 @@ https://github.com/A13Xg/Powershell/tree/main/Coffee
         Write-Error -Message "You did not specify a correct action for [-Status] parameter"
     }
 }
+#endregion /\ FUNCTIONS /\
+
+    #// Calling of main function
+function MainCall {
+    Clear-Host
+    Write-Host "-> Coffee Script Loaded <-"
+    Write-Host " "
+    $Action = Read-Host -Prompt "Would you like to [Start] or [Stop] Coffee?"
+    (Coffee -Status $Action)
+}
+(MainCall)
