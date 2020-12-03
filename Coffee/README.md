@@ -49,9 +49,6 @@ PS C:\> .\coffee-cmd.ps1
 PS C:\> Start
 ```
 >   Coffee running...
->   Id     Name            PSJobTypeName   State         HasMoreData
->   \-\-     \-\-\-\-            \-\-\-\-\-\-\-\-\-\-\-\-\-   \-\-\-\-\-         \-\-\-\-\-\-\-\-\-\-\-
->   11     Coffee          BackgroundJob   Running       True
 
 ## Installation
 #### Powershell Command Line:
