@@ -45,11 +45,18 @@ PS C:\> .\coffee-cmd.ps1
 >    -> Coffee Script Loaded <-
 >
 >    Would you like to [Start] or [Stop] Coffee?
+```Powershell
+PS C:\> Start
+```
+>   Coffee running...
+>   Id     Name            PSJobTypeName   State         HasMoreData
+>   --     ----            -------------   -----         -----------
+>   11     Coffee          BackgroundJob   Running       True
 
 ## Installation
 #### Powershell Command Line:
 ```powershell
-
+PS C:\> Invoke-WebRequest -Uri https://github.com/A13Xg/Powershell/archive/main.zip -OutFile <PATH>.zip
 ```
 -or-
 #### Download .Zip File for Release:
