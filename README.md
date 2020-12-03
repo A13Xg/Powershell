@@ -29,7 +29,7 @@ This collection and the scripts it contains will continue to evolve and get adde
 ## Installation
 #### Powershell Command Line:
 ```powershell
-
+PS C:\> Invoke-WebRequest -Uri https://github.com/A13Xg/Powershell/archive/main.zip -OutFile <PATH>.zip
 ```
 -or-
 #### Download .Zip File for Release:
