@@ -11,17 +11,19 @@ This code prevents a system from going to sleep due to a forced Group Policy or 
 
 ## Contents
 
-- [What's New](#What's New)
+- [What's New](https://github.com/A13Xg/Powershell/tree/main/Coffee#whats-new)
+- [Installation](https://github.com/A13Xg/Powershell/tree/main/Coffee#installation)
     - < more to come >
 
 ---
 
 ### What's New
-> 1. **Added *Codex* to Repo**
->    - Commonly used functions and templates.
-> 2. **Added *Coffee* to Repo**
->    - GUI and cmdLine utility to keep computer from going to sleep
->    - Updated/Optimized to use PSObjects instead of separate variables
+> 1. **Added GUI and cmdLine versions of the utility**
+>    - coffee-cmd.ps1
+>    - coffee-gui.ps1
+> 2. **Updated/Optimized**
+>    - Used PSObjects instead of seperate variables
+>    - Added '*Assets*' folder to store images and icons
 
 ## Installation
 #### Powershell Command Line:
