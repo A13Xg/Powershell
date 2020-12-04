@@ -57,6 +57,6 @@ PS C:\> Invoke-WebRequest -Uri https://github.com/A13Xg/Powershell/archive/main.
 ```
 -or-
 #### Download .Zip File for Release:
-[Release](https://github.com/A13Xg/Powershell)
+[Release](https://github.com/A13Xg/Powershell/releases/tag/v1.2)
 > 
-> - MD5 Hash: XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+> - MD5 Hash: 22bd4974ebf0c28c7e6b39f59d801ce9
