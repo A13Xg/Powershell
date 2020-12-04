@@ -2,7 +2,7 @@
 # Powershell/Hasher
 [![Language](https://img.shields.io/badge/Language:-PowerShell-blue)](https://docs.microsoft.com/en-us/powershell/)
 
-This utility is designed to provide a friendly user interface for verifying file hashes via the CertUtil.exe functionality
+This utility is designed to provide a friendly graphical user interface for verifying file hashes via the CertUtil.exe functionality
 
 ---
 
