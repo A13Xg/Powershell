@@ -9,7 +9,7 @@ A13Xg Industries
 #   without having to manually run the commands.
 
 #region GLOBAL VARIABLES
-$UseVerification = $False
+$UseVerification = $True
 $global:loop = 'TRUE'
 $global:PauseTime = 250 #In seconds
 $Targets = [PSCustomObject]@{
@@ -111,7 +111,7 @@ ForEach ($Target in $Tars) {
     $Status = LifeCheck -CheckTarget $Target
     $Delay = $Status.ResponseTime
     IF ($Online -eq $True) {
-        Write-CmdLine -Message "-$Target-" -Color "White"
+        Write-CmdLine -Message "-$Target-" -Color "Cyan"
         Write-CmdLine -Message "Online" -Color "Green"
         Write-CmdLine -Message "Delay: $Delay ms" -Color "White"
         Write-CmdLine -Message " "
