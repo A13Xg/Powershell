@@ -13,7 +13,7 @@ $RunningDir = "C:\Users\Admin\Documents\GitHub\Powershell\Repair"
 $UseVerification = $True
 #Classification of Workstation/Network
     #// UNCLASSIFIED, SECRET, TOP SECRET, TS/SCI (Any other value will give the proper label and a blue banner)
-[STRING]$global:Classification = "SECRET"
+[STRING]$global:Classification = "UNCLASSIFIED"
                 #// These IF Statements color the banner according to the setting specified above.
         IF ($Classification -eq "UNCLASSIFIED") {
             [STRING]$global:BannerColor = "Green"
