@@ -4,10 +4,20 @@ Property of Alexander Goodman
 A13Xg Industries
 #>
 
+<# CODE VERSION: Ver 0.1 #>
+<# 10 May 2022 @ 1000 #>
+
 ## ABOUT
-# This code prevents a system from going to sleep due to a forced Group Policy or other machine settings.
-# This is accomplished by toggling the 'Scroll Lock' key on and off every 45 seconds.
-# >NOTE< This application is NOT intended to circumvent security measures. When running this application ensure the system is physically supervised and protected.
+# This code is designed to automate a majority of Windows10 hardening.
+# Most of the controls are set based on common 'Best Practices' or STIGs refrenced by DISA.
+
+#region \/ GLOBAL VARIABLES \/
+
+$global:logLocation = "C:\Users\$env:USERNAME\WinHardeningLog.txt"
+$global:workingDir = "C:\Utils\Scripts\Win10Hardening\"
+$global:currentVersion = "Ver 0.1"
+
+#endregion /\ GLOBAL VARIABLES /\
 
 #region \/ FUNCTIONS \/
 
@@ -35,7 +45,7 @@ function KillAwake {
         }
     }
 #// Function to write to the command line
-    function Write-CmdLine {
+function WriteCmdLine {
         param(
             [string] $Message,
             [string] $Color = 'White'
@@ -43,4 +53,19 @@ function KillAwake {
        # Colors "Black","Blue","Cyan","DarkBlue","DarkCyan","DarkGray","DarkGreen","DarkMagenta","DarkRed","DarkYellow","Gray","Green","Magenta","Red","White","Yellow"
        Write-Host $Message -ForegroundColor $Color 
     }
+#// Function to print date in specified format
+function DateStamp {
+        Get-Date -Format "MM/dd/yyyy-HH:mm"
+    }
+#// Function to write to a log
+function Loginator {
+        param (
+            [string] $Message,
+            [string] $Path = $global:logLocation
+        )
+        $Date = (pingDate)
+        "[$Date] ~   $Message" | Out-File -FilePath $Path -Append
+    }
 #endregion /\ FUNCTIONS /\
+
+WriteCmdLine -Message "Initializing Script" -Color "YELLOW"
