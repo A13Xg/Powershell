@@ -18,6 +18,7 @@ $global:workingDir = "C:\Utils\Scripts\Win10Hardening\"
 $global:currentVersion = "Ver 0.1"
 $host.ui.RawUI.WindowTitle = "Windows10 Hardening"
 [int]$taskTotal = 10
+
 #endregion /\ GLOBAL VARIABLES /\
 
 #region \/ FUNCTIONS \/
@@ -25,6 +26,7 @@ $host.ui.RawUI.WindowTitle = "Windows10 Hardening"
 
 #// Function to start a job and run a Wscript to press the scroll-lock key every 45sec which keeps the computer awake
 function StayAwake {
+    try {
         Start-Job -Name Coffee {
         Write-Host functionRan
             $WShell = New-Object -Com Wscript.Shell
@@ -32,7 +34,18 @@ function StayAwake {
             Write-Host functionRan2
         }
     }
-    
+    catch {Write-Error -Message "There was a failure in the StayAwake Function. [x001]"}
+    }
+function Set-Title {
+    [CmdletBinding()]
+    param (
+        [string] $Title = "Powershell"
+    )
+    try {
+        $Host.UI.RawUI.WindowTitle = $Title
+    }
+    catch {Write-Error -Message "There was a failure in the SET-TITLE Function. [x002]"}
+}
 #// Function to kill the Wscript process and stop the job
 function KillAwake {
         Try {
@@ -92,8 +105,11 @@ WriteCmdLine -Message "Initializing Script" -Color "YELLOW"
 Loginator -Message "Script Initiated by $env:USERNAME"
 WriteBlank
 WriteCmdLine -Message "Beginning Process..." -Color "BLUE"
+WriteCmdLine -Message "-------------------------" -Color "White"
 WriteBlank
-ProcRun -Name test -CodeAction notepad.exe
+WriteBlank
+WriteCmdLine -Message "Configuring Attack Surface Reduction Rules..."
+Set-Title -Title "[InProgress - Setting ASR Rules]"
 
 
 
