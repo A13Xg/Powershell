@@ -84,9 +84,29 @@ function Loginator {
         $Date = (DateStamp)
         "[$Date] ~   $Message" | Out-File -FilePath $Path -Append
     }
+#// Function to test if script is currently elevated
+function CheckAdmin {
+    #// Declare WinSecurity Object
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    IF ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) = $TRUE) {
+        WriteCmdLine -Message "Elevated Permissions Check:  PASSED" -Color "GREEN"
+    }
+    ELSEIF ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) = $FALSE) {
+        WriteCmdLine -Message "ERROR - You are not running as ADMINISTRATOR" -Color "RED"
+        WriteBlank -Message "Please try running the script again as Administrator." -Color "Yellow"
+        Pause
+        EXIT
+    }
+    ELSE {
+        WriteCmdLine -Message "ERROR - You are not running as ADMINISTRATOR" -Color "RED"
+        WriteBlank -Message "Please try running the script again as Administrator." -Color "Yellow"
+        Pause
+        EXIT
+    }
+}
 #// Function To Run a Process
-    function ProcRun {
-        param (
+function ProcRun {
+    param (
             [string] $Name,
             [string] $CodeAction
         )
@@ -95,12 +115,17 @@ function Loginator {
         WriteCmdLine -Message "Task $taskVal of $taskTotal"
         Start-Process powershell.exe $CodeAction
         Loginator -Message "Executed: $CodeAction"
-    }
+}
 #endregion /\ FUNCTIONS /\
 
+#region \/ Test for Admin, setup Log File, inform user. \/
+Clear-Host
 #// Start script and initiate Log file.
 WriteCmdLine -Message "ENSURE SCRIPT IS RUNNING AS ADMINISTRATOR!" -Color "RED"
-PAUSE
+WriteCmdLine -Message "Testing if Administrator..." -Color "YELLOW"
+#// Testing for Elevated Permissions
+CheckAdmin
+Clear-Host
 WriteCmdLine -Message "Initializing Script" -Color "YELLOW"
 Loginator -Message "Script Initiated by $env:USERNAME"
 WriteBlank
@@ -108,10 +133,81 @@ WriteCmdLine -Message "Beginning Process..." -Color "BLUE"
 WriteCmdLine -Message "-------------------------" -Color "White"
 WriteBlank
 WriteBlank
+#endregion /\ Test for Admin, setup Log File, inform user. /\
+
+#region Configure Attack Surface Reduction Rules
 WriteCmdLine -Message "Configuring Attack Surface Reduction Rules..."
 Set-Title -Title "[InProgress - Setting ASR Rules]"
+WriteBlank
+[int]$RuleTotalCount = 10
+#-RULE 1
+#// Block executable content from email client and webmail
+WriteCmdLine -Message "Setting Rule 1 of $RuleTotalCount..." -Color "Blue"
+try {
+    Set-MpPreference -AttackSurfaceReductionRules_Ids BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550 -AttackSurfaceReductionRules_Actions Enabled
+    WriteCmdLine -Message "ASR Rule 1 of $RuleTotalCount set successfully!" -Color "GREEN"
+    WriteBlank
+}
+catch {
+    WriteCmdLine -Message "ERROR: Unable to set ASR Rule [x00asr01]"
+}
+#-RULE 2
+#// Block all Office applications from creating child processes.
+WriteCmdLine -Message "Setting Rule 2 of $RuleTotalCount..." -Color "Blue"
+try {
+    Set-MpPreference -AttackSurfaceReductionRules_Ids D4F940AB-401B-4EFC-AADC-AD5F3C50688A -AttackSurfaceReductionRules_Actions Enabled
+    WriteCmdLine -Message "ASR Rule 2 of $RuleTotalCount set successfully!" -Color "GREEN"
+    WriteBlank
+}
+catch {
+    WriteCmdLine -Message "ERROR: Unable to set ASR Rule [x00asr02]"
+}
+#-RULE 3
+#// Block all Office applications from creating executable content.
+WriteCmdLine -Message "Setting Rule 3 of $RuleTotalCount..." -Color "Blue"
+try {
+    Set-MpPreference -AttackSurfaceReductionRules_Ids 3B576869-A4EC-4529-8536-B80A7769E899 -AttackSurfaceReductionRules_Actions Enabled
+    WriteCmdLine -Message "ASR Rule 3 of $RuleTotalCount set successfully!" -Color "GREEN"
+    WriteBlank
+}
+catch {
+    WriteCmdLine -Message "ERROR: Unable to set ASR Rule [x00asr03]"
+}
 
+#-RULE 4
+#// Block all Office applications from injecting code into other processes.
+WriteCmdLine -Message "Setting Rule 4 of $RuleTotalCount..." -Color "Blue"
+try {
+    Set-MpPreference -AttackSurfaceReductionRules_Ids 75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84 -AttackSurfaceReductionRules_Actions Enabled
+    WriteCmdLine -Message "ASR Rule 4 of $RuleTotalCount set successfully!" -Color "GREEN"
+    WriteBlank
+}
+catch {
+    WriteCmdLine -Message "ERROR: Unable to set ASR Rule [x00asr04]"
+}
 
+#-RULE 5
+#// Block Win32 API calls from Office macro.
+WriteCmdLine -Message "Setting Rule 5 of $RuleTotalCount..." -Color "Blue"
+try {
+    Set-MpPreference -AttackSurfaceReductionRules_Ids 92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B -AttackSurfaceReductionRules_Actions Enabled
+    WriteCmdLine -Message "ASR Rule 5 of $RuleTotalCount set successfully!" -Color "GREEN"
+    WriteBlank
+}
+catch {
+    WriteCmdLine -Message "ERROR: Unable to set ASR Rule [x00asr05]"
+}
 
+#-RULE 6
+#// Block Office communication application from creating child processes.
+WriteCmdLine -Message "Setting Rule 6 of $RuleTotalCount..." -Color "Blue"
+try {
+    Set-MpPreference -AttackSurfaceReductionRules_Ids 26190899-1602-49E8-8B27-EB1D0A1CE869 -AttackSurfaceReductionRules_Actions Enabled
+    WriteCmdLine -Message "ASR Rule 6 of $RuleTotalCount set successfully!" -Color "GREEN"
+    WriteBlank
+}
+catch {
+    WriteCmdLine -Message "ERROR: Unable to set ASR Rule [x00asr06]"
+}
 WriteCmdLine -Message "Process Completed Successfully!" -Color "Green"
 Pause
